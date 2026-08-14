@@ -35,7 +35,16 @@ document.getElementById("toggleBtn").addEventListener("click", () => {
 });
 
 // Select a random user
+// Get a random user from API
 document.getElementById("randomBtn").addEventListener("click", () => {
-    const randomIndex = Math.floor(Math.random() * users.length);
-    displayUser(randomIndex);
+    fetch("https://randomuser.me/api/")
+        .then(response => response.json())
+        .then(data => {
+            const user = data.results[0];
+
+            userImage.src = user.picture.large;
+            userName.textContent = `${user.name.first} ${user.name.last}`;
+            userGender.textContent = `Gender: ${user.gender}`;
+        })
+        .catch(error => console.log(error));
 });
